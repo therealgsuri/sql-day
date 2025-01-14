@@ -14,4 +14,5 @@
 -- +------+-----------------------------------+
 
 
-SELECT id, year FROM teams;
+SELECT id, year 
+FROM teams;
