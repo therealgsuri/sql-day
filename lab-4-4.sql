@@ -2,6 +2,23 @@
 -- NOTE: need more advanced SQL to answer this question without
 --       raising a warning: "Field of aggregated query neither grouped nor aggregated"
 
+SELECT team_name, first_name, last_name, max_home_runs
+FROM (
+  SELECT 
+    teams.name AS team_name,
+    players.first_name,
+    players.last_name,
+    stats.home_runs,
+    MAX(stats.home_runs) OVER (PARTITION BY teams.name) AS max_home_runs
+  FROM players
+  JOIN stats ON players.id = stats.player_id
+  JOIN teams ON stats.team_id = teams.id
+  WHERE teams.year = 2019
+) ranked
+WHERE home_runs = max_home_runs
+ORDER BY team_name;
+
+
 -- Expected result:
 --
 -- +-------------------------------+------------+-------------+----------------------+
